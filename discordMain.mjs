@@ -23,11 +23,11 @@ client.on('interactionCreate', async interaction => {
     
             if (join) {
                 await new Promise((resolve, reject) => {
-                    db.run('DELETE FROM attendance WHERE id = ? AND year = ? AND month = ? AND day < ?', [id, year, month, day], (err) => {
+                    db.run('DELETE FROM attendance WHERE id = ? AND ((year = ? AND month = ? AND day < ?) OR (year = ? AND month < ?) OR (year < ?))', [id, year, month, day, year, month, year], (err) => {
                         if (err) reject(err);
                         else resolve();
                     });
-                });
+                });  
                 
                 let attendance = await attendanceCheck(interaction.user.id);
     
